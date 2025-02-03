@@ -24,6 +24,8 @@
 
     <ImplicitUsings>disable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject>DashBoard.View.App</StartupObject>
+    <ApplicationIcon>Resources\Icons\cpu.ico</ApplicationIcon>
 
 
 
@@ -38,6 +40,18 @@
   <ItemGroup>
     <None Remove="Resources\Font\Roboto-Regular.ttf" />
     <None Remove="Resources\Font\Roboto-VariableFont_wdth,wght.ttf" />
+    <None Remove="Resources\Icons\cpu.png" />
+  </ItemGroup>
+
+
+
+
+
+
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons\cpu.ico" />
+    <EmbeddedResource Include="Resources\Icons\cpu.png" />
   </ItemGroup>
 
 
