@@ -15,18 +15,18 @@
                    Style="{StaticResource MaterialDesignScrollViewer}">
         <StackPanel>
             <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="Register New Application" Command="{Binding RegisterNewApplicationCommand}"/>
-                    <MenuItem Header="Open Config Location" Command="{Binding OpenConfigFolderCommand}"/>
-                    <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}"/>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Register New Application" Command="{Binding RegisterNewApplicationCommand}"/>
+                    <MenuItem Header="_Open Config Location" Command="{Binding OpenConfigFolderCommand}"/>
+                    <MenuItem Header="_Exit" Command="{Binding ExitApplicationCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Settings">
-                    <MenuItem Header="Show Titles Only" Command="{Binding ToggleDisplayApplicationTitlesOnlyCommand}"/>
-                    <MenuItem Header="Pick Theme" Command="{Binding ChangeThemeCommand}"/>
+                <MenuItem Header="_Settings">
+                    <MenuItem Header="_Toggle Display Names" Command="{Binding ToggleDisplayApplicationTitlesOnlyCommand}" IsChecked ="{Binding DisplayApplicationTitlesOnly}"/>
+                    <MenuItem Header="_Pick Theme" Command="{Binding ChangeThemeCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Help">
-                    <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
-                    <MenuItem Header="Documentation" Command="{Binding ShowHelpCommand}"/>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" Command="{Binding ShowAboutCommand}"/>
+                    <MenuItem Header="_Documentation" Command="{Binding ShowHelpCommand}"/>
                 </MenuItem>
             </Menu>
             <!-- ItemsControl to display the tiles -->
