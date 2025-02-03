@@ -8,5 +8,6 @@ namespace DashBoard.Core.EventAggregator.Events
 {
     public class ToggleApplicationTitleDisplay
     {
+        public bool Flag { get; set; }
     }
 }

@@ -41,7 +41,6 @@
                        Text="{Binding ApplicationName}"
                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
                        FontSize="40"
-                       FontFamily="serif"
                        VerticalAlignment="Center"
                        Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"/>
         </Grid>

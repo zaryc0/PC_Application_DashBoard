@@ -184,7 +184,14 @@ namespace DashBoard.ViewModel
             }
             else
             {
-                ApplicationName = _application.ApplicationFreindlyName;
+                if (ApplicationName == null || ApplicationName == string.Empty)
+                {
+                    ApplicationName = _application.ApplicationTitle;
+                }
+                else
+                {  
+                    ApplicationName = _application.ApplicationFreindlyName; 
+                }
             }
         }
 
@@ -255,7 +262,7 @@ namespace DashBoard.ViewModel
         #region ISubscriber
         public void OnEventHandler(ToggleApplicationTitleDisplay e)
         {
-            DisplayTitleOnlyFlag = !DisplayTitleOnlyFlag;
+            DisplayTitleOnlyFlag = e.Flag;
             SetApplicationName();
         }
 

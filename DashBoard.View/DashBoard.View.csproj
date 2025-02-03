@@ -36,6 +36,29 @@
 
 
   <ItemGroup>
+    <None Remove="Resources\Font\Roboto-Regular.ttf" />
+    <None Remove="Resources\Font\Roboto-VariableFont_wdth,wght.ttf" />
+  </ItemGroup>
+
+
+
+
+
+
+
+  <ItemGroup>
+    <Resource Include="Resources\Font\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+
+
+
+
+
+
+  <ItemGroup>
 
 
 

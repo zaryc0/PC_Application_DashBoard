@@ -27,6 +27,7 @@ namespace DashBoard.ViewModel
         private IEventAggregator _eventAggregator;
         private IConfigService _configService;
         private string _title;
+        private bool _showTitleOnly;
         #endregion
 
         #region Constructors
@@ -36,6 +37,7 @@ namespace DashBoard.ViewModel
             _eventAggregator = ea;
             _configService = cs;
 
+            _showTitleOnly = false;
             _title = "Dashboard V0.1";
 
             RegisterNewApplicationCommand = new RelayCommand(o => OpenRegisterNewApplicationDialog());
@@ -59,7 +61,18 @@ namespace DashBoard.ViewModel
         #endregion
 
         #region Access Properties
-        public bool DisplayApplicationTitlesOnly { get; set; }
+        public bool DisplayApplicationTitlesOnly
+        {
+            get => _showTitleOnly;
+            set
+            {
+                if (_showTitleOnly != value)
+                {
+                    _showTitleOnly = value;
+                    NotifyPropertyChanged(nameof(DisplayApplicationTitlesOnly));
+                }
+            }
+        }
         public string Title => _title;
         public ObservableCollection<IApplicationVM> ApplicationVMs { get; set; } = new ObservableCollection<IApplicationVM>();
         #endregion
@@ -96,7 +109,8 @@ namespace DashBoard.ViewModel
 
         private void ToggleShowTitlesOnly()
         {
-            _eventAggregator.Publish(new ToggleApplicationTitleDisplay());
+            DisplayApplicationTitlesOnly = !DisplayApplicationTitlesOnly;
+            _eventAggregator.Publish(new ToggleApplicationTitleDisplay(){ Flag = DisplayApplicationTitlesOnly });
         }
 
         private void OpenConfigFolder()
