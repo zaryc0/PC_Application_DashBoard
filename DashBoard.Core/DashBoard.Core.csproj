@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+	  <UseWPF>true</UseWPF>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <Import Project="..\..\MVVM_FrameWork\MVVM_FrameWork\MVVM_FrameWork.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Remove="Assets\sounds\fail-234710.wav" />
+    <None Remove="Assets\sounds\snap-274158.wav" />
+    <None Remove="Assets\sounds\tada-234709.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\sounds\fail-234710.wav" />
+    <EmbeddedResource Include="Assets\sounds\snap-274158.wav" />
+    <EmbeddedResource Include="Assets\sounds\tada-234709.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+  </ItemGroup>
+
+</Project>

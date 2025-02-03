@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="DashBoard.View.UI.ApplicationTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DashBoard.View.UI"
+             xmlns:vm="clr-namespace:DashBoard.ViewModel;assembly=DashBoard.ViewModel"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:ApplicationViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.InputBindings>
+        <!-- Mouse Down Event -->
+        <MouseBinding MouseAction="LeftClick" Command="{Binding ApplicationCommand}" />
+    </UserControl.InputBindings>
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="_Edit" Command="{Binding ApplicationEditCommand}" />
+            <MenuItem Header="_Delete" Command="{Binding ApplicationDeleteCommand}"/>
+            <MenuItem Header="_Details" Command="{Binding ApplicationDetailsCommand}"/>
+            <MenuItem Header="_Open Folder" Command="{Binding ApplicationOpenFolderCommand}"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <md:Card Margin=" 5,5,0,0"
+             Height="75"
+             Width="225"
+             Background="{Binding ApplicationBackgroundColour}">
+            <Grid ToolTip="{Binding ApplicationDescription}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="52"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <Image Height="32"
+                       Width="32"
+                       Source="{Binding ApplicationIcon}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Margin="10"/>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding ApplicationName}"
+                       Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                       FontSize="40"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"/>
+        </Grid>
+    </md:Card>
+</UserControl>
