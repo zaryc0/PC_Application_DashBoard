@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashBoard.View", "DashBoard.View\DashBoard.View.csproj", "{10DE72C7-C985-4EAC-9EA8-6B916ED48F22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashBoard.Model", "DashBoard.Model\DashBoard.Model.csproj", "{8F53179E-04CF-4659-89FD-0290BD4831D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashBoard.ViewModel", "DashBoard.ViewModel\DashBoard.ViewModel.csproj", "{990E652F-4F52-4813-8EE6-82DCFEEE73BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashBoard.Core", "DashBoard.Core\DashBoard.Core.csproj", "{D8270D78-DC55-4376-A284-8A326190C87A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MVVM_FrameWork", "..\MVVM_FrameWork\MVVM_FrameWork\MVVM_FrameWork.shproj", "{B1E95725-0588-4FB5-A8C6-935C8402E166}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10DE72C7-C985-4EAC-9EA8-6B916ED48F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DE72C7-C985-4EAC-9EA8-6B916ED48F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DE72C7-C985-4EAC-9EA8-6B916ED48F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DE72C7-C985-4EAC-9EA8-6B916ED48F22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F53179E-04CF-4659-89FD-0290BD4831D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F53179E-04CF-4659-89FD-0290BD4831D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F53179E-04CF-4659-89FD-0290BD4831D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F53179E-04CF-4659-89FD-0290BD4831D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{990E652F-4F52-4813-8EE6-82DCFEEE73BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{990E652F-4F52-4813-8EE6-82DCFEEE73BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{990E652F-4F52-4813-8EE6-82DCFEEE73BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{990E652F-4F52-4813-8EE6-82DCFEEE73BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8270D78-DC55-4376-A284-8A326190C87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8270D78-DC55-4376-A284-8A326190C87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8270D78-DC55-4376-A284-8A326190C87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8270D78-DC55-4376-A284-8A326190C87A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\MVVM_FrameWork\MVVM_FrameWork\MVVM_FrameWork.projitems*{b1e95725-0588-4fb5-a8c6-935c8402e166}*SharedItemsImports = 13
+		..\MVVM_FrameWork\MVVM_FrameWork\MVVM_FrameWork.projitems*{d8270d78-dc55-4376-a284-8a326190c87a}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal
