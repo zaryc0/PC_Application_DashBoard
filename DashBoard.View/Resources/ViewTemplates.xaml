@@ -2,9 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:views ="clr-namespace:DashBoard.View.UI"
                     xmlns:shell ="clr-namespace:DashBoard.View"
-                    xmlns:viewModels="clr-namespace:DashBoard.ViewModel;assembly=DashBoard.ViewModel">
+                    xmlns:viewModels="clr-namespace:DashBoard.ViewModel;assembly=DashBoard.ViewModel" 
+                    xmlns:selectors="clr-namespace:DashBoard.View.Resources.Selectors">
+    
     <DataTemplate DataType="{x:Type viewModels:ApplicationViewModel}" x:Key="ApplicationTileTemplate">
         <views:ApplicationTile/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:AdditionVM}" x:Key="AdditionTileTemplate">
+        <views:AdditionTile/>
+    </DataTemplate>
+
+    <selectors:TileTemplateSelector x:Key="TileTemplateSelector"
+                                    ApplicationTileTemplate="{StaticResource ApplicationTileTemplate}"
+                                    AddNewTileTemplate="{StaticResource AdditionTileTemplate}"/>
 
 </ResourceDictionary>

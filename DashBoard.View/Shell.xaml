@@ -30,10 +30,10 @@
                 </MenuItem>
             </Menu>
             <!-- ItemsControl to display the tiles -->
-            <ItemsControl ItemsSource="{Binding ApplicationVMs}">
-                <ItemsControl.ItemTemplate>
-                    <StaticResource ResourceKey="ApplicationTileTemplate"/>
-                </ItemsControl.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Tiles}">
+                <ItemsControl.ItemTemplateSelector>
+                    <StaticResource ResourceKey="TileTemplateSelector"/>
+                </ItemsControl.ItemTemplateSelector>
                 <!-- WrapPanel for layout -->
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

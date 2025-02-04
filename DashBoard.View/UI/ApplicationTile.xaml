@@ -8,11 +8,10 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:ApplicationViewModel, IsDesignTimeCreatable=False}"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.InputBindings>
-        <!-- Mouse Down Event -->
-        <MouseBinding MouseAction="LeftClick" Command="{Binding ApplicationCommand}" />
-    </UserControl.InputBindings>
+             d:DesignHeight="450" d:DesignWidth="800"
+             MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
+             MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
+             MouseRightButtonDown="UserControl_MouseRightButtonDown">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Header="_Edit" Command="{Binding ApplicationEditCommand}" />

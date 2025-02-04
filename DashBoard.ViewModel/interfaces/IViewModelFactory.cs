@@ -16,5 +16,6 @@ namespace DashBoard.ViewModel.interfaces
         IApplicationDialogVM CreateNewApplicationDialogVM();
         IApplicationDialogVM CreateNewApplicationDialogVM(string name, string ver, Brush bg, string path, string desc);
         IApplicationDetailsDialogVM CreateDetailsVM();
+        IAdditionVM CreateAdditionVM();
     }
 }
