@@ -3,7 +3,7 @@
     
     <!--Colours for Color properties-->
     <Color x:Key="WindowBackGround1">#FF121212</Color>
-    <Color x:Key="WindowBackGround2">#FF616161</Color>
+    <Color x:Key="WindowBackGround2">#FF202020</Color>
     <Color x:Key="WindowBackGround">#FF1F1F1F</Color>
     <Color x:Key="WindowForeGround">#FFFFFFFF</Color>
     <Color x:Key="PanelBackGround" >#FF2F2F2F</Color>

@@ -184,7 +184,8 @@ namespace DashBoard.ViewModel
             }
             else
             {
-                if (ApplicationName == null || ApplicationName == string.Empty)
+                if (_application.ApplicationFreindlyName == null || 
+                    _application.ApplicationFreindlyName == string.Empty)
                 {
                     ApplicationName = _application.ApplicationTitle;
                 }

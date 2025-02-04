@@ -52,15 +52,18 @@ namespace DashBoard.Model.Services
         {
             var root = XElement.Load(Constants.CONFIG_FILE_RELATIVE_PATH);
             var apps = root.Element(Constants.CONFIG_APPLICATIONS_TAG);
-            foreach (var app in apps.Elements(Constants.CONFIG_APPLICATION_TAG))
+            if (apps is not null)
             {
-                _applications.Add(_modelFactory.CreateApplication(id               : new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value),
-                                                                  Freindlyname     : app.Attribute(Constants.CONFIG_FREINDLYNAME_TAG).Value,
-                                                                  Description      : app.Element(Constants.CONFIG_DESCRIPTION_TAG)?.Value.Trim(),
-                                                                  ExecutablePath   : app.Attribute(Constants.CONFIG_EXE_TAG).Value,
-                                                                  BackGroundColour : app.Element(Constants.CONFIG_COLOR_TAG).Element("Brush"),
-                                                                  DateAdded        : app.Attribute(Constants.CONFIG_DATE_TAG).Value,
-                                                                  version          : app.Attribute(Constants.CONFIG_VERSION_TAG).Value));
+                foreach (var app in apps.Elements(Constants.CONFIG_APPLICATION_TAG))
+                {
+                    _applications.Add(_modelFactory.CreateApplication(id: new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value),
+                                                                      Freindlyname: app.Attribute(Constants.CONFIG_FREINDLYNAME_TAG).Value,
+                                                                      Description: app.Element(Constants.CONFIG_DESCRIPTION_TAG)?.Value.Trim(),
+                                                                      ExecutablePath: app.Attribute(Constants.CONFIG_EXE_TAG).Value,
+                                                                      BackGroundColour: app.Element(Constants.CONFIG_COLOR_TAG).Element("Brush"),
+                                                                      DateAdded: app.Attribute(Constants.CONFIG_DATE_TAG).Value,
+                                                                      version: app.Attribute(Constants.CONFIG_VERSION_TAG).Value));
+                }
             }
             _loaded = true;
         }

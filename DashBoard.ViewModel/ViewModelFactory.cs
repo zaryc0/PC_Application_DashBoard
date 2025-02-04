@@ -63,5 +63,10 @@ namespace DashBoard.ViewModel
         {
             return new ApplicationDetailsDialogVM();
         }
+
+        public IAdditionVM CreateAdditionVM()
+        {
+            return new AdditionVM(_ea);
+        }
     }
 }

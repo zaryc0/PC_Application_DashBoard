@@ -28,6 +28,8 @@ namespace DashBoard.ViewModel
         private IConfigService _configService;
         private string _title;
         private bool _showTitleOnly;
+        private List<IApplicationVM> _applicationVMs;
+        private IAdditionVM _additionVM;
         #endregion
 
         #region Constructors
@@ -36,10 +38,13 @@ namespace DashBoard.ViewModel
             _viewModelFactory = vm;
             _eventAggregator = ea;
             _configService = cs;
-
+            
             _showTitleOnly = false;
             _title = "Dashboard V0.1";
+            _applicationVMs = [];
+            _additionVM = vm.CreateAdditionVM();
 
+            //SEtup Commands
             RegisterNewApplicationCommand = new RelayCommand(o => OpenRegisterNewApplicationDialog());
             ToggleDisplayApplicationTitlesOnlyCommand = new RelayCommand(o => ToggleShowTitlesOnly());
             OpenConfigFolderCommand = new RelayCommand(o => OpenConfigFolder());
@@ -48,15 +53,15 @@ namespace DashBoard.ViewModel
             ChangeThemeCommand = new RelayCommand(o => ChangeTheme());
             ExitApplicationCommand = new RelayCommand(o => CloseDashboard());
 
-
-        _eventAggregator.Subscribe((ISubscriber<DeRegisterApplicationEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DeRegisterApplicationEvent>)this);
             _eventAggregator.Subscribe((ISubscriber<ApplicationExitingEvent>)this);
 
             cs.ReadConfig();
             foreach (IApplication app in cs.GetApplications())
             {
-                ApplicationVMs.Add(_viewModelFactory.CreateNewApplicationVM(app));
+                AddApplicationVM(_viewModelFactory.CreateNewApplicationVM(app));
             }
+            EnsureAdditonVMisLastTile();
         }
         #endregion
 
@@ -74,7 +79,7 @@ namespace DashBoard.ViewModel
             }
         }
         public string Title => _title;
-        public ObservableCollection<IApplicationVM> ApplicationVMs { get; set; } = new ObservableCollection<IApplicationVM>();
+        public ObservableCollection<object> Tiles { get; set; } = new ObservableCollection<object>();
         #endregion
 
         #region Public Functions
@@ -85,7 +90,7 @@ namespace DashBoard.ViewModel
                                                                freindlyname: dialogViewModel.ApplicationName,
                                                                version: dialogViewModel.VersionNumber,
                                                                bg: new SolidColorBrush(dialogViewModel.BackgroundColor));
-            ApplicationVMs.Add(app);
+            AddApplicationVM(app);
         }
 
         #endregion
@@ -133,13 +138,43 @@ namespace DashBoard.ViewModel
         }
         #endregion
 
+        #region Local Functions
+        private void AddApplicationVM(IApplicationVM app)
+        {
+            _applicationVMs.Add(app);
+            if (Tiles.Count > 0)
+            {
+                Tiles.Insert(Tiles.Count - 1, app);
+            }
+            else
+            {
+                Tiles.Add(app);
+            }
+            EnsureAdditonVMisLastTile();
+            
+        }
+        private void EnsureAdditonVMisLastTile()
+        {
+            if(!Tiles.Contains(_additionVM))
+            {
+                Tiles.Add(_additionVM);
+            }
+        }
+        private void RemoveApplicationVM(IApplicationVM app)
+        {
+             _applicationVMs.Remove(app);
+            Tiles.Remove(app);
+            EnsureAdditonVMisLastTile();
+        }
+        #endregion
+        
         #region Interface Implementations
         #region ISubscriber
         public void OnEventHandler(DeRegisterApplicationEvent e)
         {
-            var app2rm = ApplicationVMs.First(p => p.ApplicationGuid == e.ID);
+            var app2rm = _applicationVMs.First(p => p.ApplicationGuid == e.ID);
             _configService.Unregister(e.ID);
-            ApplicationVMs.Remove(app2rm);
+            RemoveApplicationVM(app2rm);
         }
 
         public void OnEventHandler(ApplicationExitingEvent e)
@@ -149,9 +184,9 @@ namespace DashBoard.ViewModel
 
         public void EditApplication(Guid ID, ApplicationDialogVM dialogViewModel)
         {
-            if (ApplicationVMs.Any(p => p.ApplicationGuid == ID))
+            if (_applicationVMs.Any(p => p.ApplicationGuid == ID))
             {
-                IApplicationVM app = ApplicationVMs.First(p => p.ApplicationGuid == ID);
+                IApplicationVM app = _applicationVMs.First(p => p.ApplicationGuid == ID);
                 app.Update(dialogViewModel);
             }
 
