@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class OpenConfigFolderEvent : IEvent
+    public class DeRegisterClusterEvent : IEvent
     {
+        public Guid ID { get; set; }
     }
 }

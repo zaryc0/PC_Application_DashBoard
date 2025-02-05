@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class OpenRegisterDialogEvent : IEvent
+    public class DisplayApplicationRegisterEvent : IEvent
     {
     }
 }

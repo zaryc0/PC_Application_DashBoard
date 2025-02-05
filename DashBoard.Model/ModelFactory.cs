@@ -15,9 +15,8 @@ namespace DashBoard.Model
         {
             string title = Path.GetFileNameWithoutExtension(ExecutablePath);
             string folder = Path.GetDirectoryName(ExecutablePath);
-            IApplication app = new Appl()
+            IApplication app = new Appl(id)
             {
-                ApplicationGuid = id,
                 ApplicationTitle = title,
                 ApplicationBackgroundColour = BackGroundColour,
                 ApplicationDateAdded = DateAdded,
@@ -29,6 +28,21 @@ namespace DashBoard.Model
             };
 
             return app;
+        }
+
+        public ICluster CreateCluster(Guid id, string name, string description, string imgPath, string dateAdded, string version, XElement bgColor, List<IApplication> apps)
+        {
+            var cluster = new Cluster(id)
+            {
+                Name = name,
+                Description = description,
+                IconPath = imgPath,
+                CreationDate = dateAdded,
+                Version = version,
+                BackgroundColour = bgColor,
+                Applications = apps
+            };
+            return cluster;
         }
     }
 }

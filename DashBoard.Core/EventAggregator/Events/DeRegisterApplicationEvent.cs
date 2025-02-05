@@ -10,10 +10,6 @@ namespace DashBoard.Core.EventAggregator.Events
 {
     public class DeRegisterApplicationEvent : IEvent
     {
-        public DeRegisterApplicationEvent() 
-        {
-            
-        }
         public Guid ID { get; set; }
     }
 }

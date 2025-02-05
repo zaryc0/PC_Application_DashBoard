@@ -21,7 +21,16 @@ namespace DashBoard.Model
         #endregion
 
         #region Constructors
-
+        public Cluster(Guid id)
+        {
+            _id = id;
+            _name = string.Empty;
+            _version = string.Empty;
+            _description = string.Empty;
+            _iconPath = string.Empty;
+            _creationDate = string.Empty;
+            _backGroundColour = new XElement("");
+        }
         #endregion
 
         #region Access Properties
@@ -46,7 +55,7 @@ namespace DashBoard.Model
             get => _creationDate;
             set => _creationDate = value;
         }
-        public List<Guid> ApplicationIds { get; set; }
+        public List<IApplication> Applications { get; set; }
         public XElement BackgroundColour 
         {
             get => _backGroundColour;

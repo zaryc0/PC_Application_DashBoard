@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DashBoard.ViewModel.interfaces
@@ -20,6 +21,13 @@ namespace DashBoard.ViewModel.interfaces
         public string ApplicationDateAdded { get; set; }
         public bool DisplayTitleOnlyFlag { get; set; }
 
-        void Update(ApplicationRegistrationVM dialogViewModel);
+        void Update(string exePath, string name, string description, string version, Brush bg);
+
+        public ICommand RunApplicationCommand { get; }
+        public ICommand ShowApplicationDetailsCommand { get; }
+        public ICommand DeleteApplicationCommand { get; }
+        public ICommand EditApplicationCommand { get; }
+        public ICommand OpenApplicationFolderCommand { get; }
+
     }
 }
