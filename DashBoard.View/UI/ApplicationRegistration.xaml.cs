@@ -15,24 +15,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DashBoard.View
+namespace DashBoard.View.UI
 {
     /// <summary>
-    /// Interaction logic for RegisterApplicationDialogue.xaml
+    /// Interaction logic for ApplicationRegistration.xaml
     /// </summary>
-    public partial class ApplicationDialog : Window
+    public partial class ApplicationRegistration : UserControl
     {
-        public ApplicationDialog(IApplicationDialogVM vm)
+        public ApplicationRegistration()
         {
             InitializeComponent();
-            this.DataContext = vm;
         }
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
             // Handle save logic
-            DialogResult = true;  // Indicate that the user saved the data
-            Close();
+            var viewModel = (IApplicationRegistrationVM)DataContext;
+            viewModel.Result = true;  // Indicate that the user saved the data
         }
         private void Browse_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -45,15 +44,14 @@ namespace DashBoard.View
             if (openFileDialog.ShowDialog() == true)
             {
                 // Set the ExecutablePath in the ViewModel to the selected file path
-                var viewModel = (ApplicationDialogVM)DataContext;
+                var viewModel = (IApplicationRegistrationVM)DataContext;
                 viewModel.ExecutablePath = openFileDialog.FileName;
             }
         }
-
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Check if the entered character is a valid digit or decimal point
-            if (e.Text == "." && !(DataContext as ApplicationDialogVM).VersionNumber.Any(c => c == '.') || char.IsDigit(e.Text, 0))
+            if (e.Text == "." || char.IsDigit(e.Text, 0))
             {
                 return; // Allow the input
             }
@@ -65,8 +63,8 @@ namespace DashBoard.View
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             // Handle save logic
-            DialogResult = false;  // Indicate that the user did not save the data
-            Close();
+            var viewModel = (IApplicationRegistrationVM)DataContext;
+            viewModel.Result = false;  // Indicate that the user cancelled
         }
     }
 }

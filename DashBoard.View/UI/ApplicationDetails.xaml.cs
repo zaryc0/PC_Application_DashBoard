@@ -13,17 +13,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DashBoard.View
+namespace DashBoard.View.UI
 {
     /// <summary>
-    /// Interaction logic for ApplicationDetailsDialog.xaml
+    /// Interaction logic for ApplicationDetails.xaml
     /// </summary>
-    public partial class ApplicationDetailsDialog : Window
+    public partial class ApplicationDetails : UserControl
     {
-        public ApplicationDetailsDialog(IApplicationDetailsDialogVM v)
+        public ApplicationDetails()
         {
             InitializeComponent();
-            this.DataContext = v;
         }
     }
 }

@@ -24,7 +24,10 @@ namespace DashBoard.Core.EventAggregator
             var eventType = typeof(TEvent);
             if (_subscribers.ContainsKey(eventType))
             {
-                foreach (var subscriber in _subscribers[eventType].Cast<ISubscriber<TEvent>>())
+                // Create a copy of the subscribers list to avoid modification issues
+                var subscribersCopy = _subscribers[eventType].Cast<ISubscriber<TEvent>>().ToList();
+
+                foreach (var subscriber in subscribersCopy)
                 {
                     subscriber.OnEventHandler(eventToPublish);
                 }
@@ -32,7 +35,7 @@ namespace DashBoard.Core.EventAggregator
         }
 
         /// <summary>
-        /// 
+        /// subscribe for to the supplied event
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="action"></param>
@@ -46,6 +49,26 @@ namespace DashBoard.Core.EventAggregator
             }
             _subscribers[eventType].Add(subscriber);
         }
+
+        /// <summary>
+        /// unsubscribe to the supplied event type
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="subscriber"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void Unsubscribe<TEvent>(ISubscriber<TEvent> subscriber)
+        {
+            var eventType = typeof(TEvent);
+            if ( _subscribers.ContainsKey(eventType))
+            {
+                if (_subscribers[eventType].Contains(subscriber))
+                {
+                    _subscribers[eventType].Remove(subscriber);
+                }
+            }
+        }
+
+
         #endregion
     }
 }

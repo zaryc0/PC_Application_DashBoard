@@ -20,6 +20,6 @@ namespace DashBoard.ViewModel.interfaces
         public string ApplicationDateAdded { get; set; }
         public bool DisplayTitleOnlyFlag { get; set; }
 
-        void Update(ApplicationDialogVM dialogViewModel);
+        void Update(ApplicationRegistrationVM dialogViewModel);
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class ApplicationDetailsEvent
+    public class OpenDetailsDialogEvent
     {
         public Guid ID { get; set; }
         public string Name { get; set; }

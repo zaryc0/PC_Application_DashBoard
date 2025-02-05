@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace DashBoard.ViewModel.interfaces
 {
-    public interface IApplicationDetailsDialogVM
+    public interface IApplicationDetailsVM: IDialogContentVM
     {
         string Title { get; }
         string ApplicationName { get; set; }

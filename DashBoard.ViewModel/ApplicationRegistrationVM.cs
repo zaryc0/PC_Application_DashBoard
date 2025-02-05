@@ -1,4 +1,6 @@
-﻿using DashBoard.ViewModel.interfaces;
+﻿using DashBoard.Core.EventAggregator.Events;
+using DashBoard.Core.EventAggregator.interfaces;
+using DashBoard.ViewModel.interfaces;
 using MVVM_FrameWork;
 using System;
 using System.Collections.Generic;
@@ -11,24 +13,29 @@ using System.Windows.Media;
 
 namespace DashBoard.ViewModel
 {
-    public class ApplicationDialogVM : BaseViewModel, IApplicationDialogVM
+    public class ApplicationRegistrationVM : BaseViewModel, IApplicationRegistrationVM
     {
         #region Local Variables
+        private readonly IEventAggregator _eventAggregator;
         private string _applicationName;
         private string _executablePath;
         private string _description;
         private string _versionNumber;
         private Color _backgroundColor;
+        private bool? _result;
         #endregion
 
         #region Constructors
-        public ApplicationDialogVM()
+        public ApplicationRegistrationVM(string title,IEventAggregator ea)
         {
+            Title = title;
             _applicationName = "";
             _executablePath = "";
             _description = "";
             _versionNumber = "";
             _backgroundColor = Colors.Red;
+            _result = null;
+            _eventAggregator = ea;
         }
         #endregion
 
@@ -82,6 +89,22 @@ namespace DashBoard.ViewModel
                     NotifyPropertyChanged(nameof(BackgroundColor));
             }
         }
+
+        public bool? Result 
+        { 
+            get => _result; 
+            set
+            {
+                if (value != _result)
+                {
+                    _result = value;
+                    NotifyPropertyChanged(nameof(Result));
+                    _eventAggregator.Publish(new CloseDialogEvent());
+                }
+            }
+        }
+
+        public string Title { get; private set; }
 
         #endregion
 

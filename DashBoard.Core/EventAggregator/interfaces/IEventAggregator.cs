@@ -11,5 +11,7 @@ namespace DashBoard.Core.EventAggregator.interfaces
         void Publish<TEvent>(TEvent eventToPublish);
 
         void Subscribe<TEvent>(ISubscriber<TEvent> subscriber);
+
+        void Unsubscribe<TEvent>(ISubscriber<TEvent> subscriber);
     }
 }

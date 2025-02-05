@@ -83,7 +83,7 @@ namespace DashBoard.ViewModel
         #endregion
 
         #region Public Functions
-        public void RegisterNewApplication(ApplicationDialogVM dialogViewModel)
+        public void RegisterNewApplication(ApplicationRegistrationVM dialogViewModel)
         {
             var app = _viewModelFactory.CreateNewApplicationVM(exePath: dialogViewModel.ExecutablePath,
                                                                description: dialogViewModel.Description,
@@ -182,7 +182,7 @@ namespace DashBoard.ViewModel
             _configService.WriteConfig();
         }
 
-        public void EditApplication(Guid ID, ApplicationDialogVM dialogViewModel)
+        public void EditApplication(Guid ID, ApplicationRegistrationVM dialogViewModel)
         {
             if (_applicationVMs.Any(p => p.ApplicationGuid == ID))
             {

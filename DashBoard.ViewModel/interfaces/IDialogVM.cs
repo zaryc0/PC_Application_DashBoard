@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DashBoard.ViewModel.interfaces
 {
-    public interface IShellViewModel
+    public interface IDialogVM
     {
         public string Title { get; }
-
-        void EditApplication(Guid ID, ApplicationRegistrationVM dialogViewModel);
-        void RegisterNewApplication(ApplicationRegistrationVM dialogViewModel);
+        public object VM { get; }
     }
 }

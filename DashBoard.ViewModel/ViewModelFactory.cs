@@ -43,13 +43,13 @@ namespace DashBoard.ViewModel
             return new ApplicationViewModel(application, _ea);
         }
 
-        public IApplicationDialogVM CreateNewApplicationDialogVM()
+        public IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string title)
         {
-            return new ApplicationDialogVM();
+            return new ApplicationRegistrationVM(title,_ea);
         }
-        public IApplicationDialogVM CreateNewApplicationDialogVM(string name, string ver, Brush bg, string path, string desc)
+        public IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string name, string ver, Brush bg, string path, string desc)
         {
-            var vm = CreateNewApplicationDialogVM();
+            var vm = CreateNewApplicationRegistrationVM($"Edit {name}");
             vm.ApplicationName = name;
             vm.VersionNumber = ver;
             vm.BackgroundColor = ((SolidColorBrush)bg).Color;
@@ -59,14 +59,19 @@ namespace DashBoard.ViewModel
             return vm;
         }
 
-        public IApplicationDetailsDialogVM CreateDetailsVM()
+        public IApplicationDetailsVM CreateApplicationDetailsVM()
         {
-            return new ApplicationDetailsDialogVM();
+            return new ApplicationDetailsVM(_ea);
         }
 
         public IAdditionVM CreateAdditionVM()
         {
             return new AdditionVM(_ea);
+        }
+
+        public IDialogVM CreateDialogVM(IDialogContentVM ViewModel)
+        {
+            return new DialogVM(ViewModel);
         }
     }
 }

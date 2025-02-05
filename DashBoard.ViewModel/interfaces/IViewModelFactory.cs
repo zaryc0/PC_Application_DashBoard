@@ -13,9 +13,10 @@ namespace DashBoard.ViewModel.interfaces
     {
         IApplicationVM CreateNewApplicationVM(IApplication application);
         IApplicationVM CreateNewApplicationVM(string exePath, string description,string freindlyname = "" , string version = "0.1", Brush bg = null);
-        IApplicationDialogVM CreateNewApplicationDialogVM();
-        IApplicationDialogVM CreateNewApplicationDialogVM(string name, string ver, Brush bg, string path, string desc);
-        IApplicationDetailsDialogVM CreateDetailsVM();
+        IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string title);
+        IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string name, string ver, Brush bg, string path, string desc);
+        IApplicationDetailsVM CreateApplicationDetailsVM();
         IAdditionVM CreateAdditionVM();
+        IDialogVM CreateDialogVM(IDialogContentVM ViewModel);
     }
 }
