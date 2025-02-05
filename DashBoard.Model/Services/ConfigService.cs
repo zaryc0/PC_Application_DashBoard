@@ -75,19 +75,23 @@ namespace DashBoard.Model.Services
             {
                 foreach (var cluster in clusters.Elements(Constants.CONFIG_CLUSTER_TAG))
                 {
-                    List<Guid> ids = [];
+                    List<IApplication> cl_apps = [];
                     apps = cluster.Element(Constants.CONFIG_APPLICATIONS_TAG);
                     if (apps is not null)
                     {
                         foreach (var app in apps.Elements(Constants.CONFIG_APPLICATION_TAG))
                         {
-                            ids.Add(new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value));
+                            var id = new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value);
+                            if (_applications.Any(p => p.ApplicationGuid == id))
+                            {
+                                cl_apps.Add(_applications.First(p => p.ApplicationGuid == id));
+                            }
                         }
                     }
                     _clusters.Add(_modelFactory.CreateCluster(id: new Guid(),
                                                               name: cluster.Attribute(Constants.CONFIG_TITLE_TAG).Value,
                                                               description: cluster.Element(Constants.CONFIG_DESCRIPTION_TAG).Value,
-                                                              apps: ids,
+                                                              apps: cl_apps,
                                                               imgPath: cluster.Attribute(Constants.CONFIG_IMAGE_PATH_TAG).Value,
                                                               dateAdded: cluster.Attribute(Constants.CONFIG_DATE_TAG).Value,
                                                               version: cluster.Attribute(Constants.CONFIG_VERSION_TAG).Value,
@@ -160,9 +164,9 @@ namespace DashBoard.Model.Services
             foreach (ICluster cluster in _clusters)
             {
                 var cluster_apps = new XElement(Constants.CONFIG_APPLICATIONS_TAG);
-                foreach (Guid id in cluster.ApplicationIds)
+                foreach (IApplication app in cluster.Applications)
                 {
-                    cluster_apps.Add(new XElement(Constants.CONFIG_APPLICATION_TAG),new XAttribute(Constants.CONFIG_GUID_TAG, id));
+                    cluster_apps.Add(new XElement(Constants.CONFIG_APPLICATION_TAG),new XAttribute(Constants.CONFIG_GUID_TAG, app.ApplicationGuid));
                 }
                 XElement clusterxml = new (Constants.CONFIG_CLUSTER_TAG,
                                            new XAttribute(Constants.CONFIG_TITLE_TAG, cluster.Name),

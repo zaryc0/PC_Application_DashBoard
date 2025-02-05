@@ -52,7 +52,7 @@ namespace DashBoard.View.UI
                 // Execute the launch command
                 if (DataContext is ApplicationViewModel vm)
                 {
-                    vm.ApplicationCommand.Execute(null);
+                    vm.RunApplicationCommand.Execute(null);
                 }
             }
         }

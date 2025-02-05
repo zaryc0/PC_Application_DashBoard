@@ -10,10 +10,10 @@ namespace DashBoard.View
     /// Interaction logic for Shell.xaml
     /// </summary>
     public partial class Shell : Window, 
-        ISubscriber<OpenRegisterDialogEvent>, 
-        ISubscriber<OpenEditDialogEvent>,
-        ISubscriber<OpenDetailsDialogEvent>,
-        ISubscriber<CloseApplicationEvent>
+        ISubscriber<DisplayApplicationRegisterEvent>, 
+        ISubscriber<DisplayApplicationEditEvent>,
+        ISubscriber<DisplayApplicationDetailsEvent>,
+        ISubscriber<CloseSystemEvent>
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IViewModelFactory _viewModelFactory;
@@ -23,14 +23,14 @@ namespace DashBoard.View
             InitializeComponent();
             _eventAggregator = ea;
             _viewModelFactory = vmf;
-            _eventAggregator.Subscribe((ISubscriber<OpenRegisterDialogEvent>)this);
-            _eventAggregator.Subscribe((ISubscriber<OpenEditDialogEvent>)this);
-            _eventAggregator.Subscribe((ISubscriber<OpenDetailsDialogEvent>)this);
-            _eventAggregator.Subscribe((ISubscriber<CloseApplicationEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayApplicationRegisterEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayApplicationEditEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayApplicationDetailsEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<CloseSystemEvent>)this);
             Application.Current.Exit += ExitEventHandler;
         }
 
-        public void OnEventHandler(OpenRegisterDialogEvent e)
+        public void OnEventHandler(DisplayApplicationRegisterEvent e)
         {    
             // Open the dialog here
             var contentVM = _viewModelFactory.CreateNewApplicationRegistrationVM("Register New Application");
@@ -42,7 +42,7 @@ namespace DashBoard.View
             }
         }
 
-        public void OnEventHandler(OpenEditDialogEvent e)
+        public void OnEventHandler(DisplayApplicationEditEvent e)
         {
             var contentVM = _viewModelFactory.CreateNewApplicationRegistrationVM(name: e.Name,
                                                                                  ver: e.Version,
@@ -57,7 +57,7 @@ namespace DashBoard.View
             }
         }
 
-        public void OnEventHandler(OpenDetailsDialogEvent e)
+        public void OnEventHandler(DisplayApplicationDetailsEvent e)
         {
             var vm = _viewModelFactory.CreateApplicationDetailsVM();
             vm.ApplicationName = e.Name;
@@ -68,7 +68,7 @@ namespace DashBoard.View
             LaunchDialog(vm);
         }
 
-        public void OnEventHandler(CloseApplicationEvent e)
+        public void OnEventHandler(CloseSystemEvent e)
         {
             this.Close();
         }
@@ -81,7 +81,7 @@ namespace DashBoard.View
         }
         private void ExitEventHandler(object sender, ExitEventArgs e)
         {
-            _eventAggregator.Publish(new ApplicationExitingEvent());
+            _eventAggregator.Publish(new ClosingEvent());
         }
     }
 }

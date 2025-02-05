@@ -19,7 +19,7 @@ using System.Windows.Media;
 namespace DashBoard.ViewModel
 {
     public class ShellViewModel : BaseViewModel,  IShellViewModel , 
-        ISubscriber<DeRegisterApplicationEvent>, ISubscriber<ApplicationExitingEvent>
+        ISubscriber<DeRegisterApplicationEvent>, ISubscriber<ClosingEvent>
     {
 
         #region Local Variables
@@ -54,7 +54,7 @@ namespace DashBoard.ViewModel
             ExitApplicationCommand = new RelayCommand(o => CloseDashboard());
 
             _eventAggregator.Subscribe((ISubscriber<DeRegisterApplicationEvent>)this);
-            _eventAggregator.Subscribe((ISubscriber<ApplicationExitingEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<ClosingEvent>)this);
 
             cs.ReadConfig();
             foreach (IApplication app in cs.GetApplications())
@@ -109,13 +109,13 @@ namespace DashBoard.ViewModel
         #region Command Functions
         private void OpenRegisterNewApplicationDialog()
         {
-            _eventAggregator.Publish(new OpenRegisterDialogEvent());
+            _eventAggregator.Publish(new DisplayApplicationRegisterEvent());
         }
 
         private void ToggleShowTitlesOnly()
         {
             DisplayApplicationTitlesOnly = !DisplayApplicationTitlesOnly;
-            _eventAggregator.Publish(new ToggleApplicationTitleDisplay(){ Flag = DisplayApplicationTitlesOnly });
+            _eventAggregator.Publish(new UpdateTitleOnlyFlagEvent(){ Flag = DisplayApplicationTitlesOnly });
         }
 
         private void OpenConfigFolder()
@@ -134,7 +134,7 @@ namespace DashBoard.ViewModel
 
         private void CloseDashboard()
         {
-            _eventAggregator.Publish(new CloseApplicationEvent());
+            _eventAggregator.Publish(new CloseSystemEvent());
         }
         #endregion
 
@@ -177,7 +177,7 @@ namespace DashBoard.ViewModel
             RemoveApplicationVM(app2rm);
         }
 
-        public void OnEventHandler(ApplicationExitingEvent e)
+        public void OnEventHandler(ClosingEvent e)
         {
             _configService.WriteConfig();
         }
@@ -187,9 +187,15 @@ namespace DashBoard.ViewModel
             if (_applicationVMs.Any(p => p.ApplicationGuid == ID))
             {
                 IApplicationVM app = _applicationVMs.First(p => p.ApplicationGuid == ID);
-                app.Update(dialogViewModel);
+                app.Update
+                (
+                    name: dialogViewModel.ApplicationName,
+                    exePath: dialogViewModel.ExecutablePath,
+                    version: dialogViewModel.VersionNumber,
+                    description: dialogViewModel.Description,
+                    bg: new SolidColorBrush(dialogViewModel.BackgroundColor)
+                 );
             }
-
         }
         #endregion
         #endregion
