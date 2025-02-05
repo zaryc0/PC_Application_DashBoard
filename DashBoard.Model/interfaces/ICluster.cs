@@ -16,7 +16,7 @@ namespace DashBoard.Model.interfaces
         public string Version {  get; set; }
         public string IconPath { get; set; }
         public string CreationDate { get; set; }
-        public List<Guid> ApplicationIds { get; set; } 
+        public List<IApplication> Applications { get; set; } 
         public XElement BackgroundColour { get; set; }
     }
 }

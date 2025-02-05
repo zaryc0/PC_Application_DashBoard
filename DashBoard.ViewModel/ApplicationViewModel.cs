@@ -14,7 +14,7 @@ using System.Xml.Linq;
 namespace DashBoard.ViewModel
 {
     public class ApplicationViewModel : BaseViewModel, IApplicationVM , 
-        ISubscriber<ToggleApplicationTitleDisplay>
+        ISubscriber<UpdateTitleOnlyFlagEvent>
     {
         #region Local Variables
         IEventAggregator _eventAggregator;
@@ -37,12 +37,12 @@ namespace DashBoard.ViewModel
             LoadApplicationIcon(_application.ApplicationExecutablePath);
             SetApplicationName();
 
-            ApplicationCommand = new RelayCommand(o => RunApplication());
-            ApplicationEditCommand = new RelayCommand(o => ApplicationEdit());
-            ApplicationDeleteCommand = new RelayCommand(o => ApplicationDelete());
-            ApplicationDetailsCommand = new RelayCommand(o => ApplicationDetails());
-            ApplicationOpenFolderCommand = new RelayCommand(o => ApplicationOpenFolder());
-            _eventAggregator.Subscribe((ISubscriber<ToggleApplicationTitleDisplay>)this);
+            RunApplicationCommand = new RelayCommand(o => RunApplication());
+            EditApplicationCommand = new RelayCommand(o => EditApplication());
+            DeleteApplicationCommand = new RelayCommand(o => DeleteApplication());
+            ShowApplicationDetailsCommand = new RelayCommand(o => ApplicationDetails());
+            OpenApplicationFolderCommand = new RelayCommand(o => OpenSourceFolder());
+            _eventAggregator.Subscribe((ISubscriber<UpdateTitleOnlyFlagEvent>)this);
         }
         #endregion
 
@@ -158,15 +158,29 @@ namespace DashBoard.ViewModel
         #endregion
 
         #region Public Functions
+        public void Update(string exePath, string name, string description, string version, Brush bg)
+        {
+            string title = Path.GetFileNameWithoutExtension(exePath);
+            string folder = Path.GetDirectoryName(exePath);
+            _application.ApplicationTitle = title;
+            _application.ApplicationFreindlyName = name;
+            ApplicationFolderPath = folder;
+            ApplicationDescription = description;
+            ApplicationVersion = version;
+            ApplicationExecutablePath = exePath;
+            ApplicationBackgroundColour = bg;
+            LoadApplicationIcon(exePath);
+            SetApplicationName();
+        }
 
         #endregion
 
         #region Bindable Commands
-        public ICommand ApplicationCommand { get; private set; }
-        public ICommand ApplicationDetailsCommand { get; private set; }
-        public ICommand ApplicationDeleteCommand { get; private set; }
-        public ICommand ApplicationEditCommand { get; private set; }
-        public ICommand ApplicationOpenFolderCommand { get; private set; }
+        public ICommand RunApplicationCommand { get; private set; }
+        public ICommand ShowApplicationDetailsCommand { get; private set; }
+        public ICommand DeleteApplicationCommand { get; private set; }
+        public ICommand EditApplicationCommand { get; private set; }
+        public ICommand OpenApplicationFolderCommand { get; private set; }
         #endregion
 
         #region Local Functions
@@ -174,7 +188,7 @@ namespace DashBoard.ViewModel
         {
             _icon = IconHelper.ExtractIconImageSource(exePath);
             NotifyPropertyChanged(nameof(ApplicationIcon));
-        }
+        } 
 
         private void SetApplicationName()
         {
@@ -196,8 +210,6 @@ namespace DashBoard.ViewModel
             }
         }
 
-
-
         private void RunApplication()
         {
             // Handle the logic to launch the application
@@ -205,9 +217,6 @@ namespace DashBoard.ViewModel
 
             if (File.Exists(executablePath))
             {
-                // Flash the background color
-                //FlashTileBackground(sender);
-
                 // Play a sound (e.g., click sound)
                 // Play a click sound (use the MediaPlayer or SoundPlayer class)
                 DashBoard.Core.Helpers.SoundHelper.PlayEmbeddedWav("snap-274158.wav");
@@ -222,13 +231,13 @@ namespace DashBoard.ViewModel
                 Process.Start(psi);
             }
         }
-        private void ApplicationOpenFolder()
+        private void OpenSourceFolder()
         {
             Process.Start("explorer.exe",ApplicationFolderPath);
         }
-        private void ApplicationEdit()
+        private void EditApplication()
         {
-            _eventAggregator.Publish(new OpenEditDialogEvent() 
+            _eventAggregator.Publish(new DisplayApplicationEditEvent() 
             { 
                 ID = this.ApplicationGuid,
                 Name = _application.ApplicationFreindlyName,
@@ -239,14 +248,14 @@ namespace DashBoard.ViewModel
             });
         }
 
-        private void ApplicationDelete()
+        private void DeleteApplication()
         {
             _eventAggregator.Publish(new DeRegisterApplicationEvent() { ID = this.ApplicationGuid});
         }
 
         private void ApplicationDetails()
         {
-            _eventAggregator.Publish(new OpenDetailsDialogEvent()
+            _eventAggregator.Publish(new DisplayApplicationDetailsEvent()
             { 
                 Name = ApplicationName,
                 Version = ApplicationVersion,
@@ -261,27 +270,11 @@ namespace DashBoard.ViewModel
 
         #region Interface Implementations
         #region ISubscriber
-        public void OnEventHandler(ToggleApplicationTitleDisplay e)
+        public void OnEventHandler(UpdateTitleOnlyFlagEvent e)
         {
             DisplayTitleOnlyFlag = e.Flag;
             SetApplicationName();
         }
-
-        public void Update(ApplicationRegistrationVM dialogViewModel)
-        {
-            string title = Path.GetFileNameWithoutExtension(dialogViewModel.ExecutablePath);
-            string folder = Path.GetDirectoryName(dialogViewModel.ExecutablePath);
-            _application.ApplicationTitle = title;
-            _application.ApplicationFreindlyName = dialogViewModel.ApplicationName;
-            ApplicationFolderPath = folder;
-            ApplicationDescription = dialogViewModel.Description;
-            ApplicationVersion = dialogViewModel.VersionNumber;
-            ApplicationExecutablePath = dialogViewModel.ExecutablePath;
-            ApplicationBackgroundColour = new SolidColorBrush(dialogViewModel.BackgroundColor);
-            LoadApplicationIcon(_application.ApplicationExecutablePath);
-            SetApplicationName();
-        }
-
         #endregion
         #endregion
 

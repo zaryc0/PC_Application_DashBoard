@@ -23,6 +23,6 @@ namespace DashBoard.Model.interfaces
                                 string dateAdded,
                                 string version,
                                 XElement bgColor,
-                                List<Guid> apps);
+                                List<IApplication> apps);
     }
 }

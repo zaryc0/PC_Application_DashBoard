@@ -23,7 +23,7 @@ namespace DashBoard.ViewModel
 
         private void RegisterNewApplication()
         {
-            _eventAggregator.Publish(new OpenRegisterDialogEvent());
+            _eventAggregator.Publish(new DisplayApplicationRegisterEvent());
         }
     }
 }
