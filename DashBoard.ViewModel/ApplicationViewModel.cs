@@ -228,7 +228,7 @@ namespace DashBoard.ViewModel
         }
         private void ApplicationEdit()
         {
-            _eventAggregator.Publish(new EditDialogEvent() 
+            _eventAggregator.Publish(new OpenEditDialogEvent() 
             { 
                 ID = this.ApplicationGuid,
                 Name = _application.ApplicationFreindlyName,
@@ -246,7 +246,7 @@ namespace DashBoard.ViewModel
 
         private void ApplicationDetails()
         {
-            _eventAggregator.Publish(new ApplicationDetailsEvent()
+            _eventAggregator.Publish(new OpenDetailsDialogEvent()
             { 
                 Name = ApplicationName,
                 Version = ApplicationVersion,
@@ -267,7 +267,7 @@ namespace DashBoard.ViewModel
             SetApplicationName();
         }
 
-        public void Update(ApplicationDialogVM dialogViewModel)
+        public void Update(ApplicationRegistrationVM dialogViewModel)
         {
             string title = Path.GetFileNameWithoutExtension(dialogViewModel.ExecutablePath);
             string folder = Path.GetDirectoryName(dialogViewModel.ExecutablePath);

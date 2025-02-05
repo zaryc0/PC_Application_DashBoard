@@ -1,15 +1,14 @@
-﻿<Window x:Class="DashBoard.View.ApplicationDialog"
+﻿<UserControl x:Class="DashBoard.View.UI.ApplicationRegistration"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DashBoard.View"
+        xmlns:local="clr-namespace:DashBoard.View.UI"
         xmlns:vm="clr-namespace:DashBoard.ViewModel;assembly=DashBoard.ViewModel"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-        d:DataContext="{d:DesignInstance Type=vm:ApplicationDialogVM, IsDesignTimeCreatable=True}"
-        mc:Ignorable="d"
-        Title="Register New Application" Height="450" Width="800" WindowStyle="SingleBorderWindow">
-    <Window.Resources>
+        d:DataContext="{d:DesignInstance Type=vm:ApplicationRegistrationVM, IsDesignTimeCreatable=False}"
+        mc:Ignorable="d">
+    <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
                 <Style.Setters>
@@ -24,7 +23,7 @@
                 </Style.Setters>
             </Style>
         </ResourceDictionary>
-    </Window.Resources>
+    </UserControl.Resources>
     <Grid Background="{DynamicResource WindowBackGround1Brush}">
         <StackPanel>
             <TextBlock Text="Application Name:"/>
@@ -51,4 +50,4 @@
             <Button Content="Cancel" Click="OnCancelClick" Margin="5"/>
         </StackPanel>
     </Grid>
-</Window>
+</UserControl>

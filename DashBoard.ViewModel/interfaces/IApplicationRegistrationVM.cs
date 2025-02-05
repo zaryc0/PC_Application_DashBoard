@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace DashBoard.ViewModel.interfaces
 {
-    public interface IApplicationDialogVM
+    public interface IApplicationRegistrationVM: IDialogContentVM
     {
         string ApplicationName { get; set; }
 
@@ -18,6 +18,5 @@ namespace DashBoard.ViewModel.interfaces
         string VersionNumber { get; set; }
 
         Color BackgroundColor { get; set; }
-
     }
 }

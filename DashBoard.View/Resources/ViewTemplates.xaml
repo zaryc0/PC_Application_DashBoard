@@ -12,6 +12,14 @@
         <views:AdditionTile/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModels:ApplicationRegistrationVM}">
+        <views:ApplicationRegistration/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:ApplicationDetailsVM}">
+        <views:ApplicationDetails/>
+    </DataTemplate>
+    
     <selectors:TileTemplateSelector x:Key="TileTemplateSelector"
                                     ApplicationTileTemplate="{StaticResource ApplicationTileTemplate}"
                                     AddNewTileTemplate="{StaticResource AdditionTileTemplate}"/>
