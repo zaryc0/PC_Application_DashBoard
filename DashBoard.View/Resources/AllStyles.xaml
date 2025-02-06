@@ -5,5 +5,6 @@
         <ResourceDictionary Source="DefaultStyles.xaml"/>
         <ResourceDictionary Source="ColourPalette.xaml"/>
         <ResourceDictionary Source="ViewTemplates.xaml"/>
+        <ResourceDictionary Source="Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

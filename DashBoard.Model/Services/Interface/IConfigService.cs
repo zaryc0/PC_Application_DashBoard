@@ -13,5 +13,6 @@ namespace DashBoard.Model.Services.Interface
 
         void ReadConfig();
         List<IApplication> GetApplications();
+        List<ICluster> GetClusters();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashBoard.Core.EventAggregator.interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows.Media;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class OpenDetailsDialogEvent
+    public class DisplayApplicationDetailsEvent : IEvent
     {
         public Guid ID { get; set; }
         public string Name { get; set; }

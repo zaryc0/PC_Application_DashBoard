@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -40,6 +43,70 @@ public static class IconHelper
         {
             return ConvertIconToImageSource(icon);
         }
+    }
+    public static ImageSource ExtractIconImageSource(List<string> filePath, bool largeIcon = true)
+    {
+        List<ImageSource> icons = new List<ImageSource>();
+        if (filePath.Count > 0)
+        {
+            icons.Add(ExtractIconImageSource(filePath[0]));
+        }
+        if (filePath.Count > 1)
+        {
+            icons.Add(ExtractIconImageSource(filePath[1]));
+        }
+        if (filePath.Count > 2)
+        {
+            icons.Add(ExtractIconImageSource(filePath[2]));
+        }
+        if (filePath.Count > 3)
+        {
+            icons.Add(ExtractIconImageSource(filePath[3]));
+        }
+
+        return icons.Count > 1 ? CombineImages(icons.ToArray()) : icons[0];
+    }
+
+    public static ImageSource CombineImages(ImageSource[] images, int imageSize = 64)
+    {
+        if (images == null || images.Length == 0)
+            return null;
+
+        // Determine grid size (2x2)
+        int gridSize = 2;
+        int finalSize = imageSize * gridSize;
+
+        // Create a RenderTargetBitmap to hold the final image
+        RenderTargetBitmap renderBitmap = new RenderTargetBitmap(finalSize, finalSize, 96, 96, PixelFormats.Pbgra32);
+        DrawingVisual visual = new DrawingVisual();
+
+        using (DrawingContext dc = visual.RenderOpen())
+        {
+            for (int i = 0; i < images.Length && i < 4; i++)
+            {
+                int x = (i % gridSize) * imageSize;  // Column position
+                int y = (i / gridSize) * imageSize;  // Row position
+
+                dc.DrawImage(images[i], new Rect(x, y, imageSize, imageSize));
+            }
+        }
+
+        renderBitmap.Render(visual);
+        return renderBitmap;
+    }
+    public static ImageSource LoadImageFromFile(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath) || !System.IO.File.Exists(filePath))
+            return null;
+
+        BitmapImage bitmap = new BitmapImage();
+        bitmap.BeginInit();
+        bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
+        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+        bitmap.EndInit();
+        bitmap.Freeze(); // Freezing improves performance for UI binding
+
+        return bitmap;
     }
 
     private static ImageSource ConvertIconToImageSource(Icon icon)

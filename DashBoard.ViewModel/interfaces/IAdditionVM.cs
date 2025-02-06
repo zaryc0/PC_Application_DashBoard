@@ -9,6 +9,6 @@ namespace DashBoard.ViewModel.interfaces
 {
     public interface IAdditionVM
     {
-        ICommand RegisterNewApplicationCommand { get; }
+        ICommand RegisterNewItemCommand { get; }
     }
 }

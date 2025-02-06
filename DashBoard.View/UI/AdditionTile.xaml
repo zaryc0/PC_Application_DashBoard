@@ -11,7 +11,7 @@
              d:DataContext="{d:DesignInstance Type=vm:AdditionVM, IsDesignTimeCreatable=False}">
     <UserControl.InputBindings>
         <!-- Mouse Down Event -->
-        <MouseBinding MouseAction="LeftClick" Command="{Binding RegisterNewApplicationCommand}" />
+        <MouseBinding MouseAction="LeftClick" Command="{Binding RegisterNewItemCommand}" />
     </UserControl.InputBindings>
     <Grid>
         <md:Card Margin=" 5,5,0,0"

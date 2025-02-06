@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class ApplicationExitingEvent
+    public class DisplayClusterAppSelectorEvent
     {
+
     }
 }
