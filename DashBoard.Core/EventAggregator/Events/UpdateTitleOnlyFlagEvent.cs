@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class OpenRegisterDialogEvent : IEvent
+    public class UpdateTitleOnlyFlagEvent: IEvent
     {
+        public bool Flag { get; set; }
     }
 }

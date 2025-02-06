@@ -26,9 +26,9 @@ namespace DashBoard.Model
         #endregion
 
         #region Constructors
-        public Appl()
+        public Appl(Guid id)
         {
-            _appGuid = Guid.NewGuid();
+            _appGuid = id;
             _appTitle = string.Empty;
             _appDescription = string.Empty;
             _appName = string.Empty;

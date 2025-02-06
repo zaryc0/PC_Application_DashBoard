@@ -9,6 +9,7 @@ namespace DashBoard.ViewModel.interfaces
     public interface IDialogContentVM
     {
         string Title { get; }
+        Guid guid { get; }
         bool? Result { get; set; }
     }
 }

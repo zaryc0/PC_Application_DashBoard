@@ -27,5 +27,11 @@ namespace DashBoard.Core
         public const string CONFIG_VERSION_TAG = "Ver";
         public const string CONFIG_DESCRIPTION_TAG = "Description";
         public const string CONFIG_COLOR_TAG = "Color";
+        public const string CONFIG_CLUSTER_TAG = "Cluster";
+        public const string CONFIG_CLUSTERS_TAG = "Clusters";
+        public const string CONFIG_IMAGE_PATH_TAG = "Img_source";
+
+        public const int APP_TYPE = 1;
+        public const int CLUSTER_TYPE = 2;
     }
 }

@@ -1,4 +1,4 @@
-﻿using DashBoard.Core.EventAggregator.interfaces;
+﻿ using DashBoard.Core.EventAggregator.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class OpenConfigFolderEvent : IEvent
+    public class ClosingEvent : IEvent
     {
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DashBoard.Core.EventAggregator.Events
+namespace DashBoard.ViewModel.interfaces
 {
-    public class CloseApplicationEvent
+    internal interface ICLusterDetailsVM
     {
     }
 }
