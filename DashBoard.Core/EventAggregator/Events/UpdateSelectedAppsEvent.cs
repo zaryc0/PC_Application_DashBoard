@@ -1,5 +1,4 @@
-﻿using DashBoard.Core.EventAggregator.interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class CloseDialogEvent :IEvent
+    public class UpdateSelectedAppsEvent
     {
-        public Guid DialogID { get; set; }
+        public Guid Id { get; set; }
+        public List<Guid> app_ids{get; set;}
     }
 }

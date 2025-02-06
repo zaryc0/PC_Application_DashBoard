@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DashBoard.ViewModel.interfaces
 {
-    public interface IAdditionVM
+    internal interface ICLusterDetailsVM
     {
-        ICommand RegisterNewItemCommand { get; }
     }
 }

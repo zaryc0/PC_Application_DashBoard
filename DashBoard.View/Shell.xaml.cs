@@ -3,6 +3,11 @@ using System.Windows;
 using DashBoard.ViewModel.interfaces;
 using DashBoard.Core.EventAggregator.interfaces;
 using DashBoard.Core.EventAggregator.Events;
+using DashBoard.Model.interfaces;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace DashBoard.View
 {
@@ -13,6 +18,10 @@ namespace DashBoard.View
         ISubscriber<DisplayApplicationRegisterEvent>, 
         ISubscriber<DisplayApplicationEditEvent>,
         ISubscriber<DisplayApplicationDetailsEvent>,
+        ISubscriber<DisplayClusterRegisterEvent>,
+        ISubscriber<DisplayClusterEditEvent>,
+        ISubscriber<DisplayClusterDetailsEvent>,
+        ISubscriber<DisplayClusterAppSelectorEvent>,
         ISubscriber<CloseSystemEvent>
     {
         private readonly IEventAggregator _eventAggregator;
@@ -26,6 +35,10 @@ namespace DashBoard.View
             _eventAggregator.Subscribe((ISubscriber<DisplayApplicationRegisterEvent>)this);
             _eventAggregator.Subscribe((ISubscriber<DisplayApplicationEditEvent>)this);
             _eventAggregator.Subscribe((ISubscriber<DisplayApplicationDetailsEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayClusterRegisterEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayClusterEditEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayClusterDetailsEvent>)this);
+            _eventAggregator.Subscribe((ISubscriber<DisplayClusterAppSelectorEvent>)this);
             _eventAggregator.Subscribe((ISubscriber<CloseSystemEvent>)this);
             Application.Current.Exit += ExitEventHandler;
         }
@@ -33,7 +46,7 @@ namespace DashBoard.View
         public void OnEventHandler(DisplayApplicationRegisterEvent e)
         {    
             // Open the dialog here
-            var contentVM = _viewModelFactory.CreateNewApplicationRegistrationVM("Register New Application");
+            var contentVM = _viewModelFactory.CreateApplicationRegistrationVM("Register New Application");
             bool? result = LaunchDialog(contentVM);
             if (result is not null && result == true)
             {
@@ -44,7 +57,7 @@ namespace DashBoard.View
 
         public void OnEventHandler(DisplayApplicationEditEvent e)
         {
-            var contentVM = _viewModelFactory.CreateNewApplicationRegistrationVM(name: e.Name,
+            var contentVM = _viewModelFactory.CreateApplicationRegistrationVM(name: e.Name,
                                                                                  ver: e.Version,
                                                                                  bg: e.BackGround,
                                                                                  path: e.Path,
@@ -53,7 +66,7 @@ namespace DashBoard.View
             if (result is not null && result == true)
             {
                 IShellViewModel vm = (ShellViewModel)this.DataContext;
-                vm.EditApplication(e.ID, (ApplicationRegistrationVM)contentVM);
+                vm.EditApplication(e.ID, contentVM);
             }
         }
 
@@ -82,6 +95,60 @@ namespace DashBoard.View
         private void ExitEventHandler(object sender, ExitEventArgs e)
         {
             _eventAggregator.Publish(new ClosingEvent());
+        }
+
+        public void OnEventHandler(DisplayClusterRegisterEvent e)
+        {
+            // Open the dialog here
+            var contentVM = _viewModelFactory.CreateClusterRegistrationVM("Register New Cluster");
+            bool? result = LaunchDialog(contentVM);
+            if (result is not null && result == true)
+            {
+                IShellViewModel vm = (ShellViewModel)DataContext;
+                vm.RegisterNewCluster(contentVM);
+            }
+        }
+
+        public void OnEventHandler(DisplayClusterEditEvent e)
+        {
+            var contentVM = _viewModelFactory.CreateClusterRegistrationVM(name: e.Name,
+                                                                          version: e.Version,
+                                                                          bg: e.BackGround,
+                                                                          img_path: e.IconPath,
+                                                                          desc: e.Desc,
+                                                                          apps: e.App_ids);
+            bool? result = LaunchDialog(contentVM);
+            if (result == true)
+            {
+                IShellViewModel vm = (IShellViewModel)this.DataContext;
+                vm.EditCluster(e.ID, contentVM);
+            }
+        }
+
+        public void OnEventHandler(DisplayClusterDetailsEvent e)
+        {
+            throw new NotImplementedException();
+        }
+        public void OnEventHandler(DisplayClusterAppSelectorEvent e)
+        {
+            IShellViewModel vm = (IShellViewModel)this.DataContext;
+            List<IApplicationVM> appVms = [];
+            foreach (var appVM in vm.Tiles)
+            {
+                if(appVM != null && appVM is IApplicationVM)
+                {
+                    appVms.Add(appVM as IApplicationVM);
+                }
+            }
+            var contentVM = _viewModelFactory.CreateApplicationSelectorVM(appVms);
+            bool? result = LaunchDialog(contentVM);
+            if (result == true)
+            {
+                _eventAggregator.Publish(new UpdateSelectedAppsEvent()
+                {
+                    app_ids = contentVM.SelectedApplications.Select(o => o.ApplicationGuid).ToList(),
+                });
+            }
         }
     }
 }

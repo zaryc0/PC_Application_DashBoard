@@ -1,4 +1,5 @@
 ﻿using DashBoard.ViewModel;
+using DashBoard.ViewModel.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,9 @@ namespace DashBoard.View.UI
             if (!_isLongPressTriggered)
             {
                 // Execute the launch command
-                if (DataContext is ApplicationViewModel vm)
+                if (DataContext is IClusterVM vm)
                 {
-                    vm.RunApplicationCommand.Execute(null);
+                    vm.LaunchClusterCommand.Execute(null);
                 }
             }
         }

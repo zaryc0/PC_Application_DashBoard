@@ -21,6 +21,7 @@ namespace DashBoard.Model.Services
             _modelFactory = mf;
             _loaded = false;
             _applications = [];
+            _clusters = [];
             string directoryPath = Path.GetDirectoryName(Constants.CONFIG_FILE_RELATIVE_PATH);
 
             // Ensure the directory exists
@@ -75,23 +76,19 @@ namespace DashBoard.Model.Services
             {
                 foreach (var cluster in clusters.Elements(Constants.CONFIG_CLUSTER_TAG))
                 {
-                    List<IApplication> cl_apps = [];
+                    List<Guid> app_ids = [];
                     apps = cluster.Element(Constants.CONFIG_APPLICATIONS_TAG);
                     if (apps is not null)
                     {
                         foreach (var app in apps.Elements(Constants.CONFIG_APPLICATION_TAG))
                         {
-                            var id = new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value);
-                            if (_applications.Any(p => p.ApplicationGuid == id))
-                            {
-                                cl_apps.Add(_applications.First(p => p.ApplicationGuid == id));
-                            }
+                            app_ids.Add(new Guid(app.Attribute(Constants.CONFIG_GUID_TAG).Value));
                         }
                     }
-                    _clusters.Add(_modelFactory.CreateCluster(id: new Guid(),
+                    _clusters.Add(_modelFactory.CreateCluster(id: new Guid(cluster.Attribute(Constants.CONFIG_GUID_TAG).Value),
                                                               name: cluster.Attribute(Constants.CONFIG_TITLE_TAG).Value,
                                                               description: cluster.Element(Constants.CONFIG_DESCRIPTION_TAG).Value,
-                                                              apps: cl_apps,
+                                                              apps: app_ids,
                                                               imgPath: cluster.Attribute(Constants.CONFIG_IMAGE_PATH_TAG).Value,
                                                               dateAdded: cluster.Attribute(Constants.CONFIG_DATE_TAG).Value,
                                                               version: cluster.Attribute(Constants.CONFIG_VERSION_TAG).Value,
@@ -164,9 +161,11 @@ namespace DashBoard.Model.Services
             foreach (ICluster cluster in _clusters)
             {
                 var cluster_apps = new XElement(Constants.CONFIG_APPLICATIONS_TAG);
-                foreach (IApplication app in cluster.Applications)
+                foreach (Guid id in cluster.ApplicationIds)
                 {
-                    cluster_apps.Add(new XElement(Constants.CONFIG_APPLICATION_TAG),new XAttribute(Constants.CONFIG_GUID_TAG, app.ApplicationGuid));
+                    var app = new XElement(Constants.CONFIG_APPLICATION_TAG);
+                    app.Add(new XAttribute(Constants.CONFIG_GUID_TAG, id));
+                    cluster_apps.Add(app);
                 }
                 XElement clusterxml = new (Constants.CONFIG_CLUSTER_TAG,
                                            new XAttribute(Constants.CONFIG_TITLE_TAG, cluster.Name),
@@ -174,10 +173,10 @@ namespace DashBoard.Model.Services
                                            new XAttribute(Constants.CONFIG_DATE_TAG, cluster.CreationDate),
                                            new XAttribute(Constants.CONFIG_VERSION_TAG, cluster.Version),
                                            new XAttribute(Constants.CONFIG_IMAGE_PATH_TAG, cluster.IconPath),
+                                           new XElement(Constants.CONFIG_DESCRIPTION_TAG, cluster.Description),
                                            new XElement(Constants.CONFIG_COLOR_TAG, cluster.BackgroundColour),
                                            cluster_apps);
-
-
+                clusters.Add(clusterxml);
             }
 
             //other setting configs added here

@@ -29,7 +29,7 @@ namespace DashBoard.Model
             _description = string.Empty;
             _iconPath = string.Empty;
             _creationDate = string.Empty;
-            _backGroundColour = new XElement("");
+            _backGroundColour = new XElement("NULL");
         }
         #endregion
 
@@ -55,7 +55,7 @@ namespace DashBoard.Model
             get => _creationDate;
             set => _creationDate = value;
         }
-        public List<IApplication> Applications { get; set; }
+        public List<Guid> ApplicationIds { get; set; }
         public XElement BackgroundColour 
         {
             get => _backGroundColour;

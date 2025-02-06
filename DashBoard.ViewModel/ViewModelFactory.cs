@@ -7,49 +7,53 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DashBoard.ViewModel
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        private IEventAggregator _ea;
-        private IModelFactory _mf;
-        private IConfigService _cs;
-        public ViewModelFactory(IModelFactory mf, IEventAggregator ea, IConfigService cs) 
+        private IEventAggregator _eventAggregator;
+        private IModelFactory _modelFactory;
+        private IConfigService _configService;
+        private IModelRegistry _modelRegistry;
+        public ViewModelFactory(IModelFactory mf, IEventAggregator ea, IConfigService cs, IModelRegistry ar) 
         {
-            _mf = mf;
-            _ea = ea;
-            _cs = cs;
+            _modelFactory = mf;
+            _eventAggregator = ea;
+            _configService = cs;
+            _modelRegistry = ar;
         }
-        public IApplicationVM CreateNewApplicationVM(IApplication application)
+        public IApplicationVM CreateApplicationVM(IApplication application)
         {
-            return new ApplicationViewModel(application, _ea);
+            return new ApplicationViewModel(application, _eventAggregator);
         }
 
-        public IApplicationVM CreateNewApplicationVM(string exePath, string description, string freindlyname = "", string version = "0.1", Brush bg = null)
+        public IApplicationVM CreateApplicationVM(string exePath, string description, string freindlyname = "", string version = "0.1", Brush bg = null)
         {
             Guid guid = Guid.NewGuid();
-            IApplication application = _mf.CreateApplication( guid,
+            IApplication application = _modelFactory.CreateApplication( guid,
                                                               freindlyname,
                                                               description,
                                                               exePath,
                                                               BrushConverterHelper.BrushToXML(bg ?? new SolidColorBrush(Colors.Transparent)),
                                                               $"{DateTime.Now}",
                                                               version);
-            _cs.Register(application);
-            return new ApplicationViewModel(application, _ea);
+            _configService.Register(application);
+            return new ApplicationViewModel(application, _eventAggregator);
         }
 
-        public IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string title)
+        public IApplicationRegistrationVM CreateApplicationRegistrationVM(string title)
         {
-            return new ApplicationRegistrationVM(title,_ea);
+            return new ApplicationRegistrationVM(title,_eventAggregator);
         }
-        public IApplicationRegistrationVM CreateNewApplicationRegistrationVM(string name, string ver, Brush bg, string path, string desc)
+        public IApplicationRegistrationVM CreateApplicationRegistrationVM(string name, string ver, Brush bg, string path, string desc)
         {
-            var vm = CreateNewApplicationRegistrationVM($"Edit {name}");
+            var vm = CreateApplicationRegistrationVM($"Edit {name}");
             vm.ApplicationName = name;
             vm.VersionNumber = ver;
             vm.BackgroundColor = ((SolidColorBrush)bg).Color;
@@ -61,17 +65,66 @@ namespace DashBoard.ViewModel
 
         public IApplicationDetailsVM CreateApplicationDetailsVM()
         {
-            return new ApplicationDetailsVM(_ea);
+            return new ApplicationDetailsVM(_eventAggregator);
         }
 
-        public IAdditionVM CreateAdditionVM()
+        public IAdditionVM CreateAdditionVM(int i)
         {
-            return new AdditionVM(_ea);
+            return new AdditionVM(_eventAggregator, i);
         }
 
         public IDialogVM CreateDialogVM(IDialogContentVM ViewModel)
         {
             return new DialogVM(ViewModel);
+        }
+
+        public IClusterVM CreateClusterVM(ICluster cluster)
+        {
+            var clvm = new ClusterVM(cluster, this, _eventAggregator, _modelRegistry);
+            return clvm;
+        }
+
+        public IClusterVM CreateClusterVM(string name, string description, string version, Brush bg, List<Guid> apps, string img_path)
+        {
+            Guid guid = Guid.NewGuid();
+            ICluster cluster = _modelFactory.CreateCluster( id: guid,
+                                                  name: name,
+                                                  description: description,
+                                                  version: version,
+                                                  imgPath: (img_path is null) ? "" : img_path,
+                                                  bgColor: BrushConverterHelper.BrushToXML(bg),
+                                                  dateAdded: $"{DateTime.Now}",
+                                                  apps: apps);
+            _configService.Register(cluster);
+            var clVM = new ClusterVM(cluster, this, _eventAggregator, _modelRegistry);
+            return clVM;
+        }
+
+        public IClusterRegistrationVM CreateClusterRegistrationVM(string title)
+        {
+            return new ClusterRegistrationVM(title, _eventAggregator, _modelRegistry, this);
+        }
+
+        public IClusterRegistrationVM CreateClusterRegistrationVM(string name, string version, string img_path, Brush bg, string desc, List<Guid> apps)
+        {
+            var vm = CreateClusterRegistrationVM($"Edit {name}");
+            vm.Name = name;
+            vm.Version = version;
+            vm.BackgroundColor = ((SolidColorBrush)bg).Color;
+            vm.ImagePath = img_path;
+            vm.Description = desc;
+            foreach (var app in apps)
+            {
+                vm.Applications.Add(CreateApplicationVM(_modelRegistry.GetById(app)));
+            }
+            return vm;
+        }
+
+        public IApplicationSelectorVM CreateApplicationSelectorVM( List<IApplicationVM> applicationVMs)
+        {
+            return new ApplicationSelectorVM(title: "Select Apps",
+                                             applications: applicationVMs,
+                                             eventAggregator: _eventAggregator);
         }
     }
 }

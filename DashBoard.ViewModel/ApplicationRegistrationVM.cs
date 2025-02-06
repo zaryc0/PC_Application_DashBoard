@@ -103,6 +103,7 @@ namespace DashBoard.ViewModel
                 }
             }
         }
+        public Guid guid { get; } = Guid.NewGuid();
 
         public string Title { get; private set; }
 

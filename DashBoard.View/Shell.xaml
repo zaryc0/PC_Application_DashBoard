@@ -9,6 +9,22 @@
         d:DataContext="{d:DesignInstance Type=vm:ShellViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="{StaticResource MaterialDesign.Brush.Primary.Foreground}"/>
+                    <Setter Property="Margin" Value="5,5,0,0"/>
+                </Style.Setters>
+            </Style>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"/>
+                    <Setter Property="Margin" Value="5,5,0,0"/>
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
     <ScrollViewer Background ="{DynamicResource WindowBackGround1Brush}"
                   VerticalScrollBarVisibility="Auto"
                    HorizontalScrollBarVisibility="Disabled"
@@ -17,6 +33,7 @@
             <Menu>
                 <MenuItem Header="_File">
                     <MenuItem Header="_Register New Application" Command="{Binding RegisterNewApplicationCommand}"/>
+                    <MenuItem Header="_Register New Cluster" Command="{Binding RegisterNewClusterCommand}"/>
                     <MenuItem Header="_Open Config Location" Command="{Binding OpenConfigFolderCommand}"/>
                     <MenuItem Header="_Exit" Command="{Binding ExitApplicationCommand}"/>
                 </MenuItem>
@@ -29,8 +46,24 @@
                     <MenuItem Header="_Documentation" Command="{Binding ShowHelpCommand}"/>
                 </MenuItem>
             </Menu>
+            <TextBlock Text="Applications:" 
+                       FontSize="20"/>
             <!-- ItemsControl to display the tiles -->
             <ItemsControl ItemsSource="{Binding Tiles}">
+                <ItemsControl.ItemTemplateSelector>
+                    <StaticResource ResourceKey="TileTemplateSelector"/>
+                </ItemsControl.ItemTemplateSelector>
+                <!-- WrapPanel for layout -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <TextBlock Text="Clusters:" 
+                       FontSize="20"/>
+            <ItemsControl ItemsSource="{Binding Clusters}"
+                          Margin="0,0,0,5">
                 <ItemsControl.ItemTemplateSelector>
                     <StaticResource ResourceKey="TileTemplateSelector"/>
                 </ItemsControl.ItemTemplateSelector>

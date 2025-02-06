@@ -105,6 +105,7 @@ namespace DashBoard.ViewModel
                 }
             }
         }
+        public Guid guid { get; } = Guid.NewGuid();
 
         #endregion
 

@@ -11,7 +11,10 @@
     <DataTemplate DataType="{x:Type viewModels:AdditionVM}" x:Key="AdditionTileTemplate">
         <views:AdditionTile/>
     </DataTemplate>
-
+    <DataTemplate DataType="{x:Type viewModels:ClusterVM}" x:Key="ClusterTileTemplate">
+        <views:ClusterTile/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type viewModels:ApplicationRegistrationVM}">
         <views:ApplicationRegistration/>
     </DataTemplate>
@@ -20,11 +23,17 @@
         <views:ApplicationDetails/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:ClusterVM}">
-        <views:ClusterTile/>
+    <DataTemplate DataType="{x:Type viewModels:ApplicationSelectorVM}">
+        <views:ApplicationSelectorView/>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type viewModels:ClusterRegistrationVM}">
+        <views:ClusterRegistration/>
     </DataTemplate>
     
     <selectors:TileTemplateSelector x:Key="TileTemplateSelector"
+                                    ClusterTileTemplate="{StaticResource ClusterTileTemplate}"
                                     ApplicationTileTemplate="{StaticResource ApplicationTileTemplate}"
                                     AddNewTileTemplate="{StaticResource AdditionTileTemplate}"/>
 

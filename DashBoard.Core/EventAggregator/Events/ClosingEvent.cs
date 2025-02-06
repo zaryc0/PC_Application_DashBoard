@@ -1,4 +1,4 @@
-﻿using DashBoard.Core.EventAggregator.interfaces;
+﻿ using DashBoard.Core.EventAggregator.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
