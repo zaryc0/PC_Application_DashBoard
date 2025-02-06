@@ -172,7 +172,10 @@ namespace DashBoard.ViewModel
             LoadApplicationIcon(exePath);
             SetApplicationName();
         }
-
+        public IApplication RetrieveModel()
+        {
+            return _application;
+        }
         #endregion
 
         #region Bindable Commands

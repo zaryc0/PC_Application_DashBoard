@@ -20,17 +20,28 @@ namespace DashBoard.ViewModel
     {
         #region Local Variables
         private readonly IEventAggregator _eventAggregator;
+        private readonly IModelRegistry _applicationRegistry;
+        private readonly IViewModelFactory _viewModelFactory;
         private ICluster _cluster;
         private ImageSource _img_src;
         private Brush _brush;
         #endregion
 
         #region Constructors
-        public ClusterVM(ICluster cluster, IEventAggregator ea)
+        public ClusterVM(ICluster cluster, IViewModelFactory vmf, IEventAggregator ea, IModelRegistry ar)
         {
             _eventAggregator = ea;
             _cluster = cluster;
+            _applicationRegistry = ar;
+            _viewModelFactory = vmf;
+            Applications = [];
             _brush = BrushConverterHelper.XMLToBrush(cluster.BackgroundColour);
+            
+            foreach (Guid id in cluster.ApplicationIds)
+            {
+                Applications.Add(_viewModelFactory.CreateApplicationVM(_applicationRegistry.GetById(id)));
+            }
+
             SetIconImageSource();
 
             LaunchClusterCommand = new RelayCommand(o => LaunchCluster());
@@ -42,6 +53,10 @@ namespace DashBoard.ViewModel
         #endregion
 
         #region Access Properties
+        public Guid ClusterId 
+        { 
+            get => _cluster.ClusterId; 
+        }
         public string Name
         {
             get => _cluster.Name;
@@ -131,12 +146,12 @@ namespace DashBoard.ViewModel
         #region Local Functions
         private void SetIconImageSource()
         {
-            if (_cluster.IconPath == "" || _cluster.IconPath == string.Empty || _cluster.IconPath is null)
+            if ((_cluster.IconPath == "" || _cluster.IconPath == string.Empty || _cluster.IconPath is null) && Applications.Count > 0)
             {
                 List<string> exes = [];
-                foreach (IApplication app in _cluster.Applications)
+                foreach (var app in Applications)
                 {
-                    exes.Add(app.ApplicationExecutablePath);
+                    exes.Add(_applicationRegistry.GetById(app.ApplicationGuid).ApplicationExecutablePath);
                 }
                 _img_src = IconHelper.ExtractIconImageSource(exes);
             }
@@ -231,6 +246,8 @@ namespace DashBoard.ViewModel
                 App_ids = GetAppIds()
             });
         }
+
+
         #endregion
 
         #region interface implementations

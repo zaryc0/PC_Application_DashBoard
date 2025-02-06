@@ -14,16 +14,26 @@ namespace DashBoard.ViewModel
     public class AdditionVM : BaseViewModel, IAdditionVM
     {
         private readonly IEventAggregator _eventAggregator;
-        public AdditionVM(IEventAggregator ea) 
+        private readonly int _e;
+        public AdditionVM(IEventAggregator ea, int eventype) 
         {
             _eventAggregator = ea;
-            RegisterNewApplicationCommand = new RelayCommand(o => RegisterNewApplication());
+            _e = eventype;
+            RegisterNewItemCommand = new RelayCommand(o => RegisterNewItem());
         }
-        public ICommand RegisterNewApplicationCommand { get ; private set; }
+        public ICommand RegisterNewItemCommand { get ; private set; }
 
-        private void RegisterNewApplication()
+        private void RegisterNewItem()
         {
-            _eventAggregator.Publish(new DisplayApplicationRegisterEvent());
+            switch (_e)
+            {
+                case 1:
+                    _eventAggregator.Publish(new DisplayApplicationRegisterEvent());
+                    break;
+                case 2:
+                    _eventAggregator.Publish(new DisplayClusterRegisterEvent());
+                    break;
+            }
         }
     }
 }

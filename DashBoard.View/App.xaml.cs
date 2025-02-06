@@ -34,7 +34,8 @@ namespace DashBoard.View
             //Register Factories
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IModelFactory, ModelFactory>();
-            
+            services.AddSingleton<IModelRegistry, ModelRegistry>();
+
             // Register Views
             services.AddSingleton<Shell>();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashBoard.Model.interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace DashBoard.ViewModel.interfaces
         public bool DisplayTitleOnlyFlag { get; set; }
 
         void Update(string exePath, string name, string description, string version, Brush bg);
+        IApplication RetrieveModel();
 
         public ICommand RunApplicationCommand { get; }
         public ICommand ShowApplicationDetailsCommand { get; }

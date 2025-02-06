@@ -14,19 +14,18 @@
              MouseRightButtonDown="Cluster_MouseRightButtonDown">
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="_Edit" Command="{Binding ApplicationEditCommand}" />
-            <MenuItem Header="_Delete" Command="{Binding ApplicationDeleteCommand}"/>
-            <MenuItem Header="_Details" Command="{Binding ApplicationDetailsCommand}"/>
-            <MenuItem Header="_Open Folder" Command="{Binding ApplicationOpenFolderCommand}"/>
+            <MenuItem Header="_Edit" Command="{Binding EditClusterCommand}" />
+            <MenuItem Header="_Delete" Command="{Binding DeleteClusterCommand}"/>
+            <MenuItem Header="_Details" Command="{Binding ShowClusterDetailsCommand}"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <md:Card Margin=" 5,5,0,0"
-             Height="150"
-             Width="450"
+             Height="75"
+             Width="300"
              Background="{Binding BackGround}">
         <Grid ToolTip="{Binding Description}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="52"/>
+                <ColumnDefinition Width="75"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -34,8 +33,7 @@
                        Width="64"
                        Source="{Binding ImageSource}" 
                        HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"
-                       Margin="10"/>
+                       VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1"
                        Text="{Binding Name}"
                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"

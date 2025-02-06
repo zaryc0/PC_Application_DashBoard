@@ -23,12 +23,13 @@ namespace DashBoard.View
     public partial class DialogWindow : Window, ISubscriber<CloseDialogEvent>
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly Guid _id;
         public DialogWindow(IEventAggregator ea, IDialogVM vm)
         {
             _eventAggregator = ea;
             InitializeComponent();
             DataContext = vm;
-
+            
             //subscribe to events
             _eventAggregator.Subscribe((ISubscriber<CloseDialogEvent>)this);
         }
@@ -36,9 +37,13 @@ namespace DashBoard.View
         #region ISubscriber Event Handlers
         public void OnEventHandler(CloseDialogEvent e)
         {
+            
             var vm = DataContext as IDialogVM;
             var vm_content = vm.VM as IDialogContentVM;
-            this.DialogResult = vm_content.Result;
+            if (vm_content.guid == e.DialogID)
+            {
+                this.DialogResult = vm_content.Result;
+            }
         }
 
         protected override void OnClosed(EventArgs e)
