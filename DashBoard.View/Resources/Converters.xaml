@@ -3,4 +3,5 @@
                     xmlns:converters="clr-namespace:DashBoard.View.Resources.Converters">
     <converters:DarkenColorConverter x:Key="DarkenColorConverter"/>
     <converters:BackgroundToForegroundConverter x:Key="Bg2FG"/>
+    <converters:BooleanToSortConverter x:Key="BooleanToSortConverter"/>
 </ResourceDictionary>

@@ -16,18 +16,21 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
     private readonly ObservableCollection<IApplicationVM> _allApplications;
     private string _selectedSortOption;
     private string _searchQuery;
+    private bool _sortDescending;
     private bool? _result;
 
     public ApplicationSelectorVM(string title, List<IApplicationVM> applications, IEventAggregator eventAggregator)
     {
         Title = title;
         _eventAggregator = eventAggregator;
-
         _allApplications = [];
         _result = null;
-        FilteredApplications = new ObservableCollection<IApplicationVM>(applications);
+        _sortDescending = false;
+        _selectedSortOption = "Title";
 
-        foreach (IApplicationVM app in _allApplications) 
+        FilteredApplications = new ObservableCollection<IApplicationVM>(applications);
+        SelectedApplications = new ObservableCollection<IApplicationVM>();
+        foreach (IApplicationVM app in applications) 
         { 
             _allApplications.Add(app); 
         }
@@ -65,7 +68,19 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
 
     public string Title { get; private set; }
     public Guid guid { get; } = Guid.NewGuid();
-
+    public bool SortDescending
+    {
+        get => _sortDescending;
+        set
+        {
+            if (_sortDescending != value)
+            {
+                _sortDescending = value;
+                NotifyPropertyChanged(nameof(SortDescending));
+                ApplyFilters();
+            }
+        }
+    }
     public bool? Result
     {
         get => _result;
@@ -75,7 +90,7 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
             {
                 _result = value;
                 NotifyPropertyChanged(nameof(Result));
-                _eventAggregator.Publish(new CloseDialogEvent() { DialogID = guid});
+                _eventAggregator.Publish(new CloseDialogEvent(guid));
             }
         }
     }
@@ -85,9 +100,27 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
         var filtered = _allApplications.Where(a => string.IsNullOrEmpty(SearchQuery) || a.ApplicationName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
 
         if (SelectedSortOption == "Title")
-            filtered = filtered.OrderBy(a => a.ApplicationName);
+        {
+            if (_sortDescending)
+            {
+                filtered = filtered.OrderByDescending(a => a.ApplicationName).ToList();
+            }
+            else
+            {
+                filtered = filtered.OrderBy(a => a.ApplicationName).ToList();
+            }
+        }
         else if (SelectedSortOption == "Date Added")
-            filtered = filtered.OrderBy(a => a.ApplicationDateAdded);
+        {
+            if (_sortDescending)
+            {
+                filtered = filtered.OrderByDescending(a => DateTime.Parse(a.ApplicationDateAdded)).ToList();
+            }
+            else
+            {
+            filtered = filtered.OrderBy(a => DateTime.Parse(a.ApplicationDateAdded)).ToList();
+            }
+        }
 
         FilteredApplications.Clear();
         foreach (var app in filtered)
@@ -98,11 +131,13 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
 
     private void Accept()
     {
-        var e = new AcceptSelectedAppsEvent();
-        e.SelectedApps = [];
-        foreach( var app in SelectedApplications)
+        var e = new UpdateSelectedAppsEvent
         {
-            e.SelectedApps.Add(app.ApplicationGuid); 
+            app_ids = []
+        };
+        foreach ( var app in SelectedApplications)
+        {
+            e.app_ids.Add(app.ApplicationGuid); 
         }
         Result = true;
         _eventAggregator.Publish(e);
@@ -111,7 +146,7 @@ public class ApplicationSelectorVM : BaseViewModel, IApplicationSelectorVM
     private void Cancel()
     {
         Result = false;
-        _eventAggregator.Publish(new CloseDialogEvent());
+        _eventAggregator.Publish(new CloseDialogEvent(guid));
     }
 }
 

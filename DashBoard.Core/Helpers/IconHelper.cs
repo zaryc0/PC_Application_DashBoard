@@ -49,7 +49,7 @@ public static class IconHelper
         List<ImageSource> icons = new List<ImageSource>();
         if (filePath.Count > 0)
         {
-            icons.Add(ExtractIconImageSource(filePath[1]));
+            icons.Add(ExtractIconImageSource(filePath[0]));
         }
         if (filePath.Count > 1)
         {

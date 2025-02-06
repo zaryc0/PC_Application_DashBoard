@@ -27,7 +27,7 @@
     <Grid Background="{DynamicResource WindowBackGround1Brush}">
         <StackPanel>
             <TextBlock Text="Cluster Name:"/>
-            <TextBox Text="{Binding Name}" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+            <TextBox Text="{Binding Name}" Margin="5,0"/>
 
             <TextBlock Text="Applications:"/>
             <Grid>
@@ -76,9 +76,9 @@
                 <Button Grid.Column="1" Margin="0,5,5,5" Click="Browse_Button_Click" Content = "Browse"/>
             </Grid>
             <TextBlock Text="Cluster Version:"/>
-            <TextBox Text="{Binding Version}" PreviewTextInput="TextBox_PreviewTextInput" Margin="5"/>
+            <TextBox Text="{Binding Version}" PreviewTextInput="TextBox_PreviewTextInput" Margin="5,0"/>
             <TextBlock Text="Cluster Description:"/>
-            <TextBox Text="{Binding Description}" Height ="60"  Margin="5"
+            <TextBox Text="{Binding Description}" Height ="60"  Margin="5,0"
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto"/>

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Core.EventAggregator.Events
 {
-    public class CloseDialogEvent :IEvent
+    public class CloseDialogEvent(Guid dialogID) : IEvent
     {
-        public Guid DialogID { get; set; }
+        public Guid DialogID { get; set; } = dialogID;
     }
 }

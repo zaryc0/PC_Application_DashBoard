@@ -99,7 +99,7 @@ namespace DashBoard.ViewModel
                 {
                     _result = value;
                     NotifyPropertyChanged(nameof(Result));
-                    _eventAggregator.Publish(new CloseDialogEvent());
+                    _eventAggregator.Publish(new CloseDialogEvent(guid));
                 }
             }
         }

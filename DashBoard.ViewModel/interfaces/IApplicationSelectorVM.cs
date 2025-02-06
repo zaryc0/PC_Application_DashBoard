@@ -11,6 +11,7 @@ public interface IApplicationSelectorVM : IDialogContentVM
     ObservableCollection<IApplicationVM> SelectedApplications { get; set; }
     string SearchQuery { get; set; }
     string SelectedSortOption { get; set; }
+    bool SortDescending { get; set; }
     ICommand AcceptCommand { get; }
     ICommand CancelCommand { get; }
 }

@@ -44,7 +44,6 @@ namespace DashBoard.View
             {
                 this.DialogResult = vm_content.Result;
             }
-            this.Close();
         }
 
         protected override void OnClosed(EventArgs e)

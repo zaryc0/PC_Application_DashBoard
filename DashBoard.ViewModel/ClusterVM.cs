@@ -149,9 +149,9 @@ namespace DashBoard.ViewModel
             if ((_cluster.IconPath == "" || _cluster.IconPath == string.Empty || _cluster.IconPath is null) && Applications.Count > 0)
             {
                 List<string> exes = [];
-                foreach (Guid id in _cluster.ApplicationIds)
+                foreach (var app in Applications)
                 {
-                    exes.Add(_applicationRegistry.GetById(id).ApplicationExecutablePath);
+                    exes.Add(_applicationRegistry.GetById(app.ApplicationGuid).ApplicationExecutablePath);
                 }
                 _img_src = IconHelper.ExtractIconImageSource(exes);
             }

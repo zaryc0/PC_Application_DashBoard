@@ -37,6 +37,8 @@ namespace DashBoard.ViewModel
             _viewModelFactory = vmf;
             Applications = new ObservableCollection<IApplicationVM>();
             EditClusterAppsCommand = new RelayCommand(o => EditClusterApps());
+
+            _eventAggregator.Subscribe((ISubscriber<UpdateSelectedAppsEvent>)this);
         }
         public string Name 
         { 
@@ -113,7 +115,7 @@ namespace DashBoard.ViewModel
                 {
                     _result = value;
                     NotifyPropertyChanged(nameof(Result));
-                    _eventAggregator.Publish(new CloseDialogEvent());
+                    _eventAggregator.Publish(new CloseDialogEvent(guid));
                 }
             }
         }

@@ -20,21 +20,20 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <md:Card Margin=" 5,5,0,0"
-             Height="150"
-             Width="450"
+             Height="75"
+             Width="300"
              Background="{Binding BackGround}">
         <Grid ToolTip="{Binding Description}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="84"/>
+                <ColumnDefinition Width="75"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Image Height="64"
                        Width="64"
                        Source="{Binding ImageSource}" 
-                       HorizontalAlignment="Left" 
-                       VerticalAlignment="Center"
-                       Margin="10"/>
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1"
                        Text="{Binding Name}"
                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
